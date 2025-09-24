@@ -1,0 +1,7 @@
+../Core/Src/mpu6050.c:32:9:MPU6050_Init	40	static
+../Core/Src/mpu6050.c:55:9:MPU6050_AccelerometerConfig	40	static
+../Core/Src/mpu6050.c:80:9:MPU6050_GyroConfig	40	static
+../Core/Src/mpu6050.c:105:9:bytes_to_int	24	static
+../Core/Src/mpu6050.c:111:6:MPU6050_Read	16	static
+../Core/Src/mpu6050.c:122:6:MPU6050_Data_Update	72	static
+../Core/Src/mpu6050.c:186:6:DWT_Init	4	static

@@ -1,0 +1,4 @@
+../Core/Src/kalman_filter.c:8:6:Kalman_Init	16	static
+../Core/Src/kalman_filter.c:24:7:Kalman_Update	56	static
+../Core/Src/kalman_filter.c:58:7:getRoll	24	static
+../Core/Src/kalman_filter.c:62:7:getPitch	40	static
