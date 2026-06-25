@@ -22,13 +22,11 @@
 #include "stm32f1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "BalanceApp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
-#include "mpu6050.h"
-#include "ssd1306.h"
-#include "MotorDriver.h"
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/
@@ -357,34 +355,20 @@ void I2C1_ER_IRQHandler(void)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim->Instance == TIM1)
-	{
-		MPU6050_Read();
-		if(roll>40||roll<-40)
-			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-		else
-			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, PID_Step(roll));
-
-
-//		printf("Angle: %.4f\t\tCommand: %.4f \n", roll, command);
-	}
-
+	BalanceApp_TimerElapsedCallback(htim);
 }
 
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
-	if(hi2c->Instance == I2C1)
-	{
-		MPU_I2C_Ready = 1;
-		MPU6050_Data_Update();
-	}
-
+	BalanceApp_I2cMemRxCompleteCallback(hi2c);
 }
 
 void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c) {
-    if (hi2c->Instance == hi2c1.Instance) {
-    	oled_ready = 1;
-    }
+	BalanceApp_I2cMasterTxCompleteCallback(hi2c);
+}
+
+void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c) {
+	BalanceApp_I2cErrorCallback(hi2c);
 }
 
 /* USER CODE END 1 */

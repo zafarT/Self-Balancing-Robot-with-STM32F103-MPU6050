@@ -30,9 +30,6 @@ extern I2C_HandleTypeDef hi2c1;
 /* Absolute value */
 #define ABS(x)   ((x) > 0 ? (x) : -(x))
 
-/* SSD1306 data buffer */
-static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8];
-
 /* Private SSD1306 structure */
 typedef struct {
 	uint16_t CurrentX;
@@ -46,8 +43,7 @@ static SSD1306_t SSD1306;
 extern I2C_HandleTypeDef hi2c1;
 
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8];
-static uint8_t SSD1306_DMA_Buffer[SSD1306_WIDTH + 1];  // +1 for control byte
-uint8_t oled_ready = 1;
+volatile uint8_t oled_ready = 1;
 
 #define SSD1306_RIGHT_HORIZONTAL_SCROLL              0x26
 #define SSD1306_LEFT_HORIZONTAL_SCROLL               0x27
@@ -607,9 +603,8 @@ void SSD1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t
 void SSD1306_Clear (void)
 {
 	SSD1306_Fill (0);
-    //SSD1306_UpdateScreen();
-	 SSD1306_UpdateScreen_DMA();
-	 oled_ready = 1;
+	//SSD1306_UpdateScreen();
+	SSD1306_UpdateScreen_DMA();
 }
 void SSD1306_ON(void) {
 	SSD1306_WRITECOMMAND(0x8D);
@@ -666,12 +661,14 @@ void ssd1306_I2C_Write(uint8_t address, uint8_t reg, uint8_t data) {
 
 void SSD1306_UpdateScreen_DMA(void) {
     if (oled_ready) {
-        oled_ready = 0;
+        if (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY) {
+            return;
+        }
         static uint8_t dma_buf[1 + 1024]; // 1 control byte + 128x64 buffer
         dma_buf[0] = 0x40;
         memcpy(&dma_buf[1], SSD1306_Buffer, 1024);
-        HAL_I2C_Master_Transmit_DMA(&hi2c1, SSD1306_I2C_ADDR, dma_buf, sizeof(dma_buf));
+        if (HAL_I2C_Master_Transmit_DMA(&hi2c1, SSD1306_I2C_ADDR, dma_buf, sizeof(dma_buf)) == HAL_OK) {
+            oled_ready = 0;
+        }
     }
 }
-
-

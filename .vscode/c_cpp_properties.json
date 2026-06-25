@@ -1,0 +1,27 @@
+{
+  "configurations": [
+    {
+      "name": "STM32",
+      "includePath": [
+        "ASW/Balance/Inc",
+        "ASW/Control/Inc",
+        "ASW/SensorFusion/Inc",
+        "ASW/Sensors/Imu/Inc",
+        "BSW/ECUAbstraction/Imu/Inc",
+        "BSW/ECUAbstraction/Motor/Inc",
+        "Core/Inc",
+        "Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+        "Drivers/CMSIS/Include",
+        "Drivers/STM32F1xx_HAL_Driver/Inc",
+        "Drivers/STM32F1xx_HAL_Driver/Inc/Legacy"
+      ],
+      "defines": [
+        "DEBUG",
+        "STM32F103xB",
+        "USE_HAL_DRIVER"
+      ],
+      "compilerPath": "/usr/bin/arm-none-eabi-gcc"
+    }
+  ],
+  "version": 4
+}

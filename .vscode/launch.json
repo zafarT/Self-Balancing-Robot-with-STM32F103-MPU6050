@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            "showDevDebugOutput": "parsed",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/debug/MPU6050-debug.elf",
+            "name": "Debug STM32",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "serverpath": "/usr/bin/openocd",
+            "preLaunchTask": "Build STM",
+            "device": "STM32F103C8",
+            "runToEntryPoint": "main",
+            "configFiles": [
+                "${workspaceFolder}/openocd.cfg"
+            ]
+        },
+        {
+            "showDevDebugOutput": "parsed",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/debug/MPU6050-debug.elf",
+            "name": "Attach STM32",
+            "request": "attach",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "serverpath": "/usr/bin/openocd",
+            "preLaunchTask": "Build STM",
+            "device": "STM32F103C8",
+            "configFiles": [
+                "${workspaceFolder}/openocd.cfg"
+            ]
+        }
+    ]
+}

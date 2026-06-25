@@ -78,7 +78,7 @@ typedef enum {
 } SSD1306_COLOR_t;
 
 
-extern uint8_t oled_ready;
+extern volatile uint8_t oled_ready;
 /**
  * @brief  Initializes SSD1306 LCD
  * @param  None
